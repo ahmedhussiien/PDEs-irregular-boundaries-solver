@@ -1,7 +1,7 @@
 import numpy as np # solving linear equations
-from Equation import Expression # parsing functions from strings
 import matplotlib.pyplot as plt # plotting
 import matplotlib.ticker as plticker
+from Equation import Expression # parsing functions from strings
 from math import floor, ceil
 
 # Defaults
@@ -253,3 +253,7 @@ def PDE_irregular_boundaries_interface():
 
     except:
         print("Oops! 🤕, There's an error please double check the inputs again")
+
+
+if __name__ == '__main__':
+    PDE_irregular_boundaries_interface()
