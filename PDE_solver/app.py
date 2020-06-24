@@ -38,7 +38,7 @@ def get_inner_points(boundary_points, h, k):
     
     return inner_points
 
-def get_system_equations(inner_points, boundary_points, h, k, uxx_coeff_fn, uyy_coeff_fn, eqn_fn):
+def get_system_of_equations(inner_points, boundary_points, h, k, uxx_coeff_fn, uyy_coeff_fn, eqn_fn):
 
     unknowns = len(inner_points)
     mat = np.zeros([unknowns, unknowns])
@@ -148,15 +148,10 @@ def get_system_equations(inner_points, boundary_points, h, k, uxx_coeff_fn, uyy_
 def PDE_irregular_boundaries(boundary_points, h, k, uyy_coeff_fn, uxx_coeff_fn, eqn_fn):
 
     """
-    Solves a second-order PDE with regular/irregular boundaries.
-    
-    Important Notes:
-    You must pass all boundary points values that intersects with the grid 
-    the equation passed will be in the form: uyy_coeff_fn*uyy + uxx_coeff_fn*uxx = eqn_Fn
-    
+    Solves a second-order PDE with regular/irregular boundaries in the form: uyy_coeff_fn*uyy + uxx_coeff_fn*uxx = eqn_fn
     
     Parameters: 
-    boundary_points (dict): { (x, y) : initial_value} 
+    boundary_points (dict): { (x, y) : initial_value} contains all boundary points that intersects with the grid
     h (float):              delta x-axis
     k (float):              delta y-axis
     uyy_coeff_fn (str):     string represenetation of the coeeficient function of the second-order partial derivative w.r.t y
@@ -167,7 +162,6 @@ def PDE_irregular_boundaries(boundary_points, h, k, uyy_coeff_fn, uxx_coeff_fn, 
     
     """
 
-    # Parsing equations to functions
     try:
         uyy_coeff_fn = Expression(uyy_coeff_fn,["x","y"])
         uxx_coeff_fn = Expression(uxx_coeff_fn,["x","y"])
@@ -178,7 +172,7 @@ def PDE_irregular_boundaries(boundary_points, h, k, uyy_coeff_fn, uxx_coeff_fn, 
         return
     
     inner_points = get_inner_points(boundary_points, h, k)
-    vals, mat = get_system_equations(inner_points, boundary_points, h, k, uxx_coeff_fn, uyy_coeff_fn, eqn_fn)
+    vals, mat = get_system_of_equations(inner_points, boundary_points, h, k, uxx_coeff_fn, uyy_coeff_fn, eqn_fn)
 
     # Solving equations
     invMat = np.linalg.inv(mat)
@@ -227,7 +221,7 @@ def PDE_irregular_boundaries_interface():
         print("Welcome to our PDE calculator 😁")
         print("---------------------------------\n")
         
-        print("You'll now enter all points of the boundaries that intersects with the grid, one by one and the initial value at this point")
+        print("Enter all points of the boundaries that intersects with the grid, and the initial value at each point")
         num = int(input("Enter the number of points: "))
         
         for i in range(num):
