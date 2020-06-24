@@ -145,7 +145,7 @@ def get_system_equations(inner_points, boundary_points, h, k, uxx_coeff_fn, uyy_
     return vals, mat
 
 
-def PDE_Irregular_Boundaries(boundary_points, h, k, uyy_coeff_fn, uxx_coeff_fn, eqn_fn):
+def PDE_irregular_boundaries(boundary_points, h, k, uyy_coeff_fn, uxx_coeff_fn, eqn_fn):
 
     """
     Solves a second-order PDE with regular/irregular boundaries.
@@ -246,7 +246,7 @@ def PDE_irregular_boundaries_interface():
         print("The magic is done ✅")
         
         # Calculation and plotting
-        Results = PDE_Irregular_Boundaries(boundary_points = points, h = h, k = k, uyy_coeff_fn = uyy, 
+        Results = PDE_irregular_boundaries(boundary_points = points, h = h, k = k, uyy_coeff_fn = uyy, 
                                          uxx_coeff_fn = uxx, eqn_fn = eqn_fn)
 
         Plot_results(Results, boundary_points = points, h= h, k=h )
